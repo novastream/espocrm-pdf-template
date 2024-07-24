@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Invoice</title>
+    <style>
+      body {
+        font-size: 12px;
+        color: #000000;
+        margin: 0;
+        padding: 20px;
+      }
+
+      .invoice-top {
+        width: 100%;
+        margin-bottom: 0px;
+      }
+
+      .invoice-logo {
+        vertical-align: top;
+      }
+
+      .invoice-logo img {
+        width: 300px;
+        height: 51px;
+      }
+
+      .invoice-title-container {
+        width: 100%;
+      }
+
+      .invoice-title-container tr td {
+        text-align: right;
+      }
+
+      .invoice-title {
+        font-size: 24px;
+        text-transform: uppercase;
+        line-height: 14px;
+        font-weight: bold;
+        color: #000000;
+        margin: 0px;
+      }
+
+      .invoice-items-header {
+        width: 100%;
+        margin-bottom: 0px;
+        border-spacing: 5px;
+        border-bottom: 2px solid #E8EEF1;
+      }
+
+      .invoice-items-header tr td {
+        padding-top: 5px;
+        padding-bottom: 0px;
+      }
+
+      .invoice-item-head-art {
+        width: 20%;
+        text-align: left;
+      }
+
+      .invoice-item-head-desc {
+        width: 40%;
+        text-align: left;
+      }
+
+      .invoice-item-head-qty {
+        width: 10%;
+        text-align: right;
+      }
+
+      .invoice-item-head-price {
+        width: 15%;
+        text-align: right;
+      }
+
+      .invoice-item-head-tot {
+        width: 15%;
+        text-align: right;
+      }
+
+      .invoice-items {
+        width: 100%;
+        margin-bottom: 0px;
+        padding-top: 0px;
+        padding-bottom: 5px;
+        border-spacing: 5px;
+      }
+
+      .invoice-footer {
+        width: 100%;
+      }
+
+      .invoice-footer-info {
+        width: 100%;
+        margin: 0px;
+        text-align: center;
+      }
+
+      .invoice-footer-info tr td {
+        text-align: left;
+      }
+
+      .ifi-col1 td {
+        font-size: 12px;
+        padding: 2px 2px 0px 2px;
+      }
+
+      .ifi-col2 td {
+        font-size: 11px;
+        padding: 0px 2px 0px 2px;
+      }
+
+      .ifi-col3 td {
+        font-size: 11px;
+        padding: 0px 2px 0px 2px;
+      }
+
+      .ifi-col4 td {
+        font-size: 11px;
+        padding: 0px 2px 5px 2px;
+      }
+
+      .invoice-footer-totals {
+        width: 100%;
+        border-top: 2px solid #E8EEF1;
+        border-bottom: 2px solid #E8EEF1;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- HEADER BELOW -->
+    <table class="invoice-top">
+      <tbody>
+        <tr>
+          <td style="width:50%; vertical-align:top; text-align: left;">
+            <table style="width:100%;" cellpadding="2">
+              <tbody>
+                <tr>
+                  <td class="invoice-logo">
+                    <img src="?entryPoint=attachment&amp;id=123456789">
+                  </td>
+                </tr>
+                <tr>
+                  <td style="width:15%; font-size: 12px; padding-bottom:0px;">
+                    <div style="height:30px;"></div>Invoice no: <strong>{{name}}</strong>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="width:15%; font-size: 12px; padding-bottom:0px;">Customer no: <strong>{{account.customerNumber}}</strong>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="width:15%; font-size: 12px; padding-bottom:0px;">Invoice date: <strong>{{dateFormat createdAt_RAW format='YYYY-MM-DD' timezone='Europe/Stockholm'}}</strong>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="width:15%; font-size: 12px; padding-bottom:0px;">Due date: <strong>{{dueDate}}</strong>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="width:15%; font-size: 12px;">
+                    <!-- {{#if account.paymentTerms}} --> Payment terms: <strong>{{{account.paymentTerms}}} days net</strong>
+                    <!-- {{else}} --> Payment terms: <strong>15 days net</strong>
+                    <!-- {{/if}} -->
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+          <td style="width:50%;">
+            <table class="invoice-title-container" cellpadding="15">
+              <tbody>
+                <tr>
+                  <td>
+                    <h1 class="invoice-title">Invoice</h1>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <table style="width:100%; min-height: 177px; padding-top: 11px;">
+              <tbody>
+                <tr>
+                  <td style="padding-bottom:0px; font-size: 12px;">
+                    <div style="height:25px;"></div>
+                    <!-- {{#ifEqual accountName "Privata kunder"}}
+								  {{shippingContactName}}
+								  
+														<!-- {{else}} -->
+                    {{accountName}}
+                    <!-- {{/ifEqual}} -->
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding-bottom:0px; font-size: 12px;">
+                    {{{account.orgnr}}}
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding-bottom:0px; font-size: 12px;">
+                    {{{billingAddressStreet}}}
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding-bottom:0px;font-size: 12px;">
+                    {{billingAddressPostalCode}} {{billingAddressCity}}
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding-bottom:0px; font-size: 12px;">
+                    <!-- {{#if billingAddressCountry}} -->
+                    {{billingAddressCountry}}
+                    <!-- {{/if}} -->
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding-bottom:0px; font-size: 12px;">
+                    <!-- {{#if compartment}} --> Compartment: {{compartment}}
+                    <!-- {{/if}} -->
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding-bottom:0px; font-size: 12px;">
+                    <!-- {{#if mark}} --> Marking: {{mark}}
+                    <!-- {{/if}} -->
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding-bottom:0px; font-size: 12px;">
+                    <!-- {{#if project}} --> Project: {{project}}
+                    <!-- {{/if}} -->
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table style="width:100%; margin-bottom:0px;padding-bottom:10px;">
+      <tbody>
+        <tr>
+          <td style="width:50%; text-align: left;" valign="top"></td>
+          <td style="width:50%; text-align: left;" valign="top">
+            <div style="height:10px;"></div>
+            <table style="width:100%;" cellpadding="2">
+              <tbody>
+                <tr>
+                  <td style="width:35%; font-size: 12px; padding-top:0px; padding-bottom:0px;">Your reference:</td>
+                  <td style="font-size: 12px; padding-bottom:0px;">
+                    <strong>{{createdByName}}</strong>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="width:35%; font-size: 12px; padding-top:0px;">Our reference:</td>
+                  <td style="font-size: 12px; padding-top:0px;">
+                    <!-- {{#if reference}} -->
+                    <strong>{{reference}}</strong>
+                    <!-- {{else if billingContactName}} -->
+                    <strong>{{billingContactName}}</strong>
+                    <!-- {{else}} -->
+                    <strong>{{shippingContactName}}</strong>
+                    <!-- {{/if}} -->
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table class="invoice-items-header" cellspacing="5">
+      <tbody>
+        <tr>
+          <td class="invoice-item-head-art">
+            <strong>Item</strong>
+          </td>
+          <td class="invoice-item-head-desc">
+            <strong>Description</strong>
+          </td>
+          <td class="invoice-item-head-qty">
+            <strong>Qty</strong>
+          </td>
+          <td class="invoice-item-head-price">
+            <strong>Price</strong>
+          </td>
+          <td class="invoice-item-head-tot">
+            <strong>Total</strong>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- HEADER ABOVE -->
+    <!-- CONTENT BELOW -->
+    <table class="invoice-items" style="width:106%; margin-left: -19px;" cellspacing="5">
+      <tbody>
+        <!-- {{#each itemList}} -->
+        <tr nobr="true">
+          <td style="width: 20%; vertical-align: top; text-align: left; padding-left: 0px; margin-left: 0px; font-size: 11px;">
+            {{#unless productCategoryName}}
+              {{{name}}}
+            {{else}}
+              {{productCategoryName}}
+            {{/unless}}
+          </td>
+          <td style="width:40%; vertical-align: top; text-align: left; font-size: 11px;">
+            {{#unless productCategoryName}}
+              {{{description}}}
+            {{else}}
+              {{name}}
+            {{/unless}}
+          </td>
+          <td style="width:10%; vertical-align: top; text-align: right; font-size: 11px;">{{quantity}}</td>
+          <td style="width:15%; vertical-align: top; text-align: right; font-size: 11px;">{{unitPrice}}:-</td>
+          <td style="width:15%; vertical-align: top; text-align: right; font-size: 11px;">{{amount}}:-</td>
+        </tr>
+        <!-- {{/each}} -->
+      </tbody>
+    </table>
+    <!-- CONTENT ABOVE -->
+    <!-- FOOTER BELOW -->
+    <table class="invoice-footer">
+      <tbody>
+        <tr style="padding-top:0px; padding-bottom:0px;">
+          <td style="padding-top:0px; padding-bottom:0px;">
+            <div>
+              <p style="font-size:9px;">Always state the invoice number when paying. <br> The dispute must be received by My Company within 10 days. <br> Late payment interest 20%. This is for Swedish customers only. <br> Please contact us for a VAT-free invoice if your company <br> is outside of Sweden. </p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <table cellspacing="5" class="invoice-footer-totals">
+              <tbody>
+                <tr>
+                  <td style="padding-left:5px; padding-right:5px; text-align:left; font-size: 12px;">
+                    <strong>Net amount</strong>
+                  </td>
+                  <td style="padding-left:5px; padding-right:5px; text-align:right; font-size: 12px;">
+                    <strong>VAT amount</strong>
+                  </td>
+                  <td style="padding-left:5px; padding-right:5px; text-align:right; font-size: 12px;">
+                    <strong>VAT %</strong>
+                  </td>
+                  <td style="padding-left:5px; padding-right:5px; text-align:right; font-size: 12px;">
+                    <strong>To pay EUR</strong>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding-left:5px; padding-right:5px; text-align:left; font-size: 11px;">
+                    {{amount}}:-
+                  </td>
+                  <td style="padding-left:5px; padding-right:5px; text-align:right; font-size: 11px;">
+                    {{taxAmount}}:-
+                  </td>
+                  <td style="padding-left:5px; padding-right:5px; text-align:right; font-size: 11px;"> 25 </td>
+                  <td style="padding-left:5px; padding-right:5px; text-align:right; font-size: 11px;">
+                    {{grandTotalAmount}}:-
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div style="height:5px;"></div>
+            <table cellspacing="2" class="invoice-footer-info">
+              <tbody>
+                <tr class="ifi-col1">
+                  <td>Address:</td>
+                  <td>Contact:</td>
+                  <td>Company details:</td>
+                  <td>Bank details:</td>
+                </tr>
+                <tr class="ifi-col2">
+                  <td>My Company</td>
+                  <td>0000 - 00 00 00</td>
+                  <td>VAT: 000000-0000</td>
+                  <td>Approved for F tax</td>
+                </tr>
+                <tr class="ifi-col3">
+                  <td>My Address</td>
+                  <td>My Email</td>
+                  <td>VAT: 0000000000</td>
+                  <td>Bank no: 000-0000</td>
+                </tr>
+                <tr class="ifi-col4">
+                  <td>000 00 city</td>
+                  <td>www.mywebsite.com</td>
+                  <td>Board seat: My City</td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- FOOTER ABOVE-->
+  </body>
+</html>

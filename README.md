@@ -10,9 +10,19 @@ Copy header, content, footer parts and CSS.
 **Page setup**
 
 Orientation: Portrait
+
 Format: A4
+
 Font: DejaVu Sans
+
 Top margin: 100
+
 Left margin: 10
+
 Right margin: 10 
+
 Bottom margin: 75
+
+Header postion: 10
+
+Footer position: 68
